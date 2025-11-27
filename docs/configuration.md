@@ -4,133 +4,106 @@ sidebar_position: 3
 
 # Configuration
 
-Flowbaby is designed to work out of the box, but you can customize its behavior through VS Code settings.
+Customize Flowbaby's behavior through VS Code settings.
 
 ## Settings
 
-Access Flowbaby settings through:
+Access settings via **File → Preferences → Settings → Extensions → Flowbaby Memory**:
 
-- **UI**: File → Preferences → Settings → Extensions → Flowbaby
-- **JSON**: Add to your `settings.json`
+| Setting | Description | Default |
+|---------|-------------|---------|
+| `Flowbaby.enabled` | Toggle memory capture and retrieval on/off | `true` |
+| `Flowbaby.maxContextResults` | Maximum number of memory results to retrieve | `3` |
+| `Flowbaby.maxContextTokens` | Token budget for retrieved context | `2000` |
+| `Flowbaby.recencyWeight` | Weight for prioritizing recent conversations (0-1) | `0.3` |
+| `Flowbaby.importanceWeight` | Weight for prioritizing marked conversations (0-1) | `0.2` |
+| `Flowbaby.autoIngestConversations` | **Experimental**: Auto-capture @flowbaby-memory conversations | `false` |
+| `Flowbaby.pythonPath` | Path to Python interpreter (must have Cognee installed) | `python3` |
+| `Flowbaby.logLevel` | Logging verbosity: error, warn, info, debug | `info` |
+| `Flowbaby.debugLogging` | Show debug output channel (for troubleshooting) | `false` |
 
-### Available Settings
+## LLM Configuration
 
-| Setting | Type | Default | Description |
-|---------|------|---------|-------------|
-| `flowbaby.enabled` | boolean | `true` | Enable/disable the Flowbaby extension |
-| `flowbaby.storageLocation` | string | `.flowbaby` | Folder name for the knowledge graph |
-| `flowbaby.maxMemories` | number | `1000` | Maximum number of memories to store |
-| `flowbaby.autoStore` | boolean | `true` | Automatically store memories during agent sessions |
+Configure your LLM provider via **File → Preferences → Settings → Extensions → Flowbaby Memory**:
 
-### Example Configuration
+| Setting | Description | Default |
+|---------|-------------|---------|
+| `Flowbaby.llm.provider` | LLM provider (openai, anthropic, ollama, etc.) | `openai` |
+| `Flowbaby.llm.model` | Model name (e.g., gpt-4o-mini, claude-3-opus) | `gpt-4o-mini` |
+| `Flowbaby.llm.endpoint` | Custom API endpoint (for self-hosted models) | *(empty)* |
+
+### Provider Examples
+
+- **OpenAI (default)**: Leave provider as `openai`, model as `gpt-4o-mini`
+- **Anthropic Claude**: Set provider to `anthropic`, model to `claude-3-opus-20240229`
+- **Local Ollama**: Set provider to `ollama`, model to your model name, endpoint to `http://localhost:11434`
+
+## Python Environment
+
+The extension requires Python 3.8+ with the following packages:
+
+- `cognee` (version 0.3.4 or compatible)
+- `python-dotenv`
+
+### Automatic Detection
+
+The extension automatically detects your Python interpreter in this order:
+
+1. **Explicit Setting**: `Flowbaby.pythonPath` if configured (highest priority)
+2. **Flowbaby Environment**: `.flowbaby/venv/bin/python` (isolated from project venvs)
+3. **Legacy Location**: `.venv/bin/python` (Linux/macOS) or `.venv/Scripts/python.exe` (Windows)
+4. **System Python**: `python3` as fallback
+
+:::tip Why `.flowbaby/venv`?
+This location prevents conflicts with project virtual environments (e.g., Python Jedi language server overwriting Flowbaby's dependencies). The `.flowbaby/` directory is also automatically added to `.gitignore`.
+:::
+
+### When to Configure Manually
+
+Set `Flowbaby.pythonPath` explicitly if:
+
+- Virtual environment is outside workspace directory
+- Using conda or pyenv environments (not auto-detected)
+- Want to share a Python environment across multiple workspaces
+
+Example configuration in VS Code settings:
 
 ```json
 {
-  "flowbaby.enabled": true,
-  "flowbaby.storageLocation": ".flowbaby",
-  "flowbaby.maxMemories": 1000,
-  "flowbaby.autoStore": true
+  "Flowbaby.pythonPath": "/path/to/your/.flowbaby/venv/bin/python"
 }
 ```
 
-## Commands
+Platform-specific examples:
 
-Flowbaby provides the following VS Code commands:
+- Linux/macOS: `/home/user/project/.flowbaby/venv/bin/python`
+- Windows: `C:\Users\user\project\.flowbaby\venv\Scripts\python.exe`
+
+## Environment Management
+
+Flowbaby includes tools to keep your environment healthy:
+
+- **Status Bar**: Shows real-time health (Ready, Setup Required, Refreshing, Error)
+- **Refresh Dependencies**: If you encounter issues, run **"Flowbaby: Refresh Bridge Dependencies"** to safely reinstall the environment without losing data
+- **Background Safety**: Refresh operations automatically pause background tasks to prevent conflicts
+
+## Memory Management Commands
 
 | Command | Description |
 |---------|-------------|
-| `Flowbaby: Open Documentation` | Opens the Flowbaby documentation site |
-| `Flowbaby: View Knowledge Graph` | Opens a view of stored memories |
-| `Flowbaby: Clear All Memories` | Removes all stored memories (use with caution) |
-| `Flowbaby: Export Memories` | Exports memories to a JSON file |
+| **Flowbaby: Toggle Memory** | Flips `Flowbaby.enabled` setting on/off |
+| **Flowbaby: Clear Workspace Memory** | Deletes all captured conversations for current workspace (requires confirmation) |
+| **Flowbaby: Initialize Workspace** | Set up or repair the Flowbaby environment |
+| **Flowbaby: Set API Key** | Store API key securely via VS Code SecretStorage |
+| **Flowbaby: View Background Operations** | Check status of in-flight memory operations |
 
-Access commands via the Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`).
+## Unsupported Contexts
 
-## MCP Tools
+The following contexts are **not validated or supported** in this release:
 
-Flowbaby exposes two MCP (Model Context Protocol) tools that AI agents can use:
+- **Remote Development**: VS Code Remote-SSH, WSL, Dev Containers
+- **Multi-root Workspaces**: Workspaces with multiple folder roots
+- **Conda Environments**: Automatic detection not implemented (use explicit config)
+- **Pyenv Environments**: Automatic detection not implemented (use explicit config)
 
-### flowbaby_storeMemory
-
-Stores a new memory in the knowledge graph.
-
-**Parameters:**
-
-| Parameter | Required | Type | Description |
-|-----------|----------|------|-------------|
-| `topic` | Yes | string | Short 3-7 word title for the memory |
-| `context` | Yes | string | 300-1500 character summary of what was done |
-| `decisions` | No | string[] | List of durable decisions made (0-5 items) |
-| `rationale` | No | string[] | Explanation of why decisions were made (0-5 items) |
-| `metadata` | No | object | Optional metadata (plan_id, status) |
-
-**Example:**
-
-```json
-{
-  "topic": "Redis caching implementation",
-  "context": "Implemented Redis caching for API responses using ioredis. Set up cache-aside pattern with 5-minute TTL for user data endpoints. Added cache invalidation on user updates.",
-  "decisions": [
-    "Use ioredis over node-redis for better TypeScript support",
-    "5-minute TTL balances freshness and performance"
-  ],
-  "rationale": [
-    "ioredis has better cluster support for future scaling",
-    "User data changes infrequently, 5 minutes is acceptable staleness"
-  ]
-}
-```
-
-### flowbaby_retrieveMemory
-
-Retrieves relevant memories from the knowledge graph.
-
-**Parameters:**
-
-| Parameter | Required | Type | Description |
-|-----------|----------|------|-------------|
-| `query` | Yes | string | Natural language description of what to recall |
-| `maxResults` | No | number | Maximum results to return (default: 3, max: 10) |
-
-**Example:**
-
-```json
-{
-  "query": "Previous decisions about caching strategy and Redis implementation",
-  "maxResults": 3
-}
-```
-
-**Returns:** Structured JSON with matching memories, including topic, context, decisions, rationale, and metadata.
-
-## Storage
-
-### Knowledge Graph Location
-
-By default, Flowbaby stores the knowledge graph at:
-
-```text
-{workspace}/.flowbaby/knowledge-graph.db
-```
-
-### Git Tracking
-
-You have two options for version control:
-
-**Option 1: Ignore (Personal Memory)**
-
-Add to `.gitignore`:
-
-```gitignore
-.flowbaby/
-```
-
-Each developer has their own memory. Good for personal preferences and local context.
-
-**Option 2: Track (Shared Memory)**
-
-Commit the `.flowbaby/` folder. The team shares a common knowledge base. Good for project decisions and architecture context.
-
-### Backup
-
-The knowledge graph is a SQLite database. You can back it up by copying the `.flowbaby/` folder.
+Support for these contexts may be added in future releases.

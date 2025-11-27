@@ -4,184 +4,213 @@ sidebar_position: 4
 
 # Workflows
 
-Learn effective patterns for using Flowbaby to maximize your AI coding productivity.
+Learn effective patterns for using Flowbaby in your daily development.
 
-## Core Principles
+## Capturing Conversations
 
-### 1. Let Agents Store Automatically
+### Keyboard Shortcut (Primary Method)
 
-Flowbaby is designed to work automatically. AI agents will:
+1. View a valuable chat message (from any participant: @workspace, @terminal, GitHub Copilot, etc.)
+2. Press **Ctrl+Alt+C** (or **Cmd+Alt+C** on macOS)
+3. Paste the message content in the input box (or leave empty to use clipboard)
+4. Press Enter to capture
+5. See "Memory staged – processing will finish in ~1–2 minutes" confirmation
+6. Continue working—you'll receive a completion notification when ready
 
-- Store memories after completing significant work
-- Retrieve context before answering questions
-- Update memories when decisions change
+### Command Palette (Alternative)
 
-You don't need to explicitly ask the agent to "remember" things.
+1. Open Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`)
+2. Type "Flowbaby: Capture to Memory"
+3. Follow the same workflow as keyboard shortcut
 
-### 2. Be Specific in Your Questions
+## Retrieving Context with @flowbaby-memory
 
-When you want the agent to recall past context, be specific:
+### How to Use
 
-✅ **Good**: "How did we implement the authentication middleware?"
+1. Open GitHub Copilot Chat (`Ctrl+Alt+I` or click chat icon)
+2. Type: `@flowbaby-memory How did I implement caching?`
+3. The participant:
+   - Retrieves relevant memories from your workspace knowledge graph
+   - Shows previews: "📚 Retrieved 3 memories"
+   - Augments your question with retrieved context
+   - Generates a contextually-aware response
 
-❌ **Less effective**: "What did we do before?"
+### Example Queries
 
-Specific questions help the agent construct better retrieval queries.
+- `@flowbaby-memory What problems did we discuss about the authentication system?`
+- `@flowbaby-memory What solutions did we consider for rate limiting?`
+- `@flowbaby-memory Summarize our decisions about database architecture`
 
-### 3. Reference Past Decisions
+## Creating Conversation Summaries
 
-When making changes that relate to previous work, reference it:
+Conversation summaries are structured records that capture the essence of a chat session.
 
-> "We decided to use Redis for caching. Now I want to add cache invalidation."
+### What's Included in a Summary
 
-This prompts the agent to retrieve relevant memories about the caching implementation.
+- Main topic and context
+- Key decisions made
+- Rationale behind decisions
+- Open questions still unresolved
+- Next steps to take
+- References to files, plans, or other resources
 
-## Common Workflows
+### When to Create Summaries
 
-### Starting a New Feature
+Create a summary when you've:
 
-When beginning new work:
+- Completed a design discussion with important decisions
+- Resolved a complex debugging issue with lessons learned
+- Made architectural choices that should be remembered
+- Discussed tradeoffs between different approaches
+- Reached conclusions about implementation direction
 
-1. Describe what you want to build
-2. The agent will check for related past context
-3. Existing patterns and decisions will inform the implementation
+### Summary Schema
 
-**Example:**
+Each summary follows this structured format:
 
-> "Add a new API endpoint for user preferences. Follow the same patterns we used for the user profile endpoint."
+```markdown
+Summary: [Short title]
 
-### Continuing Previous Work
+Topic: [Main focus of the conversation]
+Context: [1-3 sentences explaining what you were working on and why]
+Decisions:
+- [Key decision 1]
+- [Key decision 2]
+Rationale:
+- [Why decision 1 was made]
+Open Questions:
+- [Unresolved question 1]
+Next Steps:
+- [Action item 1]
+References:
+- [File path, plan ID, or other reference]
+Time Scope: [Time range, e.g., "Nov 17 14:00-16:30"]
+```
 
-When picking up where you left off:
+### How to Create a Summary
 
-1. Ask about the current state of the feature
-2. The agent retrieves progress and decisions
-3. Continue from where you stopped
+1. **Open GitHub Copilot Chat** (`Ctrl+Alt+I` / `Cmd+Alt+I`)
+2. **Start a conversation with @flowbaby-memory** and type:
+   - `@flowbaby-memory summarize this conversation`
+   - Or: `@flowbaby-memory remember this session`
+   - Or: `@flowbaby-memory create summary`
+3. **Review the scope preview**: Extension shows "I'll summarize the last 15 turns"
+4. **Adjust turn count (optional)**: Type a number to change scope
+5. **Review the generated summary**
+6. **Confirm storage**: Reply `yes`, `store it`, or `save` to confirm
 
-**Example:**
+### Turn Count Guidance
 
-> "What's the status of the checkout flow refactor we started last week?"
+- **Short sessions (5-15 turns)**: Good for focused discussions, bug fixes, quick decisions
+- **Medium sessions (15-30 turns)**: Typical for feature planning, architecture discussions
+- **Long sessions (30-50 turns)**: Complex multi-topic conversations; consider breaking into multiple summaries
 
-### Understanding Past Decisions
+### Best Practices
 
-When you need to understand why something was built a certain way:
+- **Create summaries at natural breakpoints**: After reaching a decision, completing a design, or resolving an issue
+- **Keep summaries focused**: One main topic per summary for better retrieval precision
+- **Review before storing**: Check that LLM correctly identified key points
+- **Include explicit references**: Mention plan IDs, file paths, or issue numbers in conversation for automatic extraction
+- **Balance detail and brevity**: Aim for 300-600 tokens total
 
-1. Ask about the specific component or decision
-2. The agent retrieves the rationale and context
-3. You get the full picture, not just the code
+## Async Ingestion Behavior
 
-**Example:**
+Starting in v0.3.3, memory ingestion operates asynchronously to prevent blocking your workflow.
 
-> "Why did we choose PostgreSQL over MongoDB for this project?"
+### Timing Expectations
 
-### Refactoring with Context
+- **Capture Response**: 5-10 seconds—you can continue working immediately after capture
+- **Background Processing**: 60-90 seconds—knowledge graph construction happens in the background
+- **Total Time**: ~1-2 minutes from capture to searchable memory
 
-When refactoring code:
+### Staged Messaging
 
-1. Ask about the original implementation and its constraints
-2. The agent retrieves decisions and trade-offs
-3. Refactor with full awareness of why things are the way they are
+When you capture a memory, you'll see:
 
-**Example:**
+> **"Memory staged – processing will finish in ~1–2 minutes. You'll get a notification when it's done."**
 
-> "I want to refactor the payment processing module. What constraints and decisions should I be aware of?"
+This means:
 
-### Onboarding to a Codebase
+- ✅ Your content has been safely staged for processing
+- ✅ You can continue working without waiting
+- ⏳ Knowledge graph construction is running in the background
+- 🔔 You'll receive a notification when processing completes
 
-When joining an existing project:
+### Completion Notifications
 
-1. Ask high-level questions about architecture
-2. The agent retrieves stored project knowledge
-3. Get up to speed faster than reading documentation
+After background processing finishes, you'll receive one of two notifications:
 
-**Example:**
+- **Success** (ℹ️ Info): "✅ Cognify finished" with workspace name, summary digest, elapsed time, and entity count
+- **Failure** (⚠️ Warning): "⚠️ Cognify failed" with workspace name, summary digest, and remediation guidance
 
-> "Give me an overview of how authentication works in this project."
+### Background Status
 
-## Memory Management
+To check all in-flight operations:
 
-### When Memories Are Created
+1. Press `Cmd+Shift+P` (or `Ctrl+Shift+P` on Linux/Windows)
+2. Type "Flowbaby: View Background Operations"
+3. View pending, running, completed, and failed operations
 
-Agents automatically store memories when:
+## Using Flowbaby Tools with Custom Agents
 
-- Implementing a significant feature
-- Making architecture decisions
-- Completing a multi-step task
-- Resolving complex bugs
+Flowbaby provides **Language Model Tools** that allow GitHub Copilot and custom agents to autonomously access workspace memory.
 
-### Memory Quality
+### Quick Start
 
-Good memories include:
+1. **Enable Tools via Configure Tools UI**:
+   - Open Copilot chat → Click "Tools" (⚙️ icon) → "Configure Tools"
+   - Find "Store Memory in Flowbaby" and "Retrieve Flowbaby Memory"
+   - Toggle tools on/off individually (disabled by default for privacy)
 
-- **Clear topic**: 3-7 word title
-- **Rich context**: 300-1500 characters of detail
-- **Explicit decisions**: What was decided
-- **Rationale**: Why it was decided that way
+2. **Use in Chat**:
+   - Type `#flowbaby` to see autocomplete suggestions
+   - Select `#flowbabyStoreSummary` or `#flowbabyRetrieveMemory`
+   - Tools appear only when enabled via Configure Tools
 
-### Memory Lifecycle
+### Custom Agent Example
 
-Memories can have different statuses:
+Create a `.agent.md` file in your workspace to define a memory-aware agent:
 
-| Status | Meaning |
-|--------|---------|
-| `Active` | Current approach, still relevant |
-| `Superseded` | Replaced by a newer decision |
-| `DecisionRecord` | Stable, long-term decision |
+```markdown
+---
+name: Memory-Aware Code Assistant
+description: Copilot assistant with access to workspace memory
+tools: ['search', 'flowbabyStoreSummary', 'flowbabyRetrieveMemory']
+---
 
-Agents will mark old memories as `Superseded` when approaches change.
+You are a code assistant with access to workspace-specific memory.
 
-## Team Collaboration
+When the user asks about past decisions or implementations:
+1. Use #flowbaby_retrieveMemory to search for relevant context
+2. Ground your answer in the retrieved memories
+3. If no memories exist, use your training data but clarify it's not workspace-specific
 
-### Shared Knowledge Graph
+When the user completes an important implementation or makes a decision:
+1. Offer to store a summary using #flowbaby_storeMemory
+2. Include topic, context, and key decisions in the summary
+```
 
-If your team commits the `.flowbaby/` folder:
+### Available Tools
 
-- Everyone shares the same project memories
-- New team members get context automatically
-- Decisions are preserved as team knowledge
+#### Store Memory Tool (`#flowbabyStoreSummary`)
 
-### Personal Knowledge Graph
+Stores conversation summaries in Flowbaby knowledge graph.
 
-If each developer ignores `.flowbaby/`:
+**Parameters**:
 
-- Memories reflect individual work patterns
-- Personal preferences are remembered
-- No conflicts on merge
+- `topic` (required): Summary title
+- `context` (required): Summary description
+- `decisions` (optional): Key decisions made
+- `rationale` (optional): Reasoning behind decisions
+- `metadata` (optional): Plan ID, status, etc.
 
-### Hybrid Approach
+#### Retrieve Memory Tool (`#flowbabyRetrieveMemory`)
 
-Some teams use both:
+Searches Flowbaby knowledge graph for relevant memories.
 
-- Track a `team-memory.json` export in Git
-- Keep personal `.flowbaby/` ignored
-- Periodically sync important team decisions
+**Parameters**:
 
-## Tips for Power Users
+- `query` (required): Natural language search query
+- `maxResults` (optional): Max results to return (default: 3, max: 10)
 
-### Explicit Memory Requests
-
-You can ask the agent to store something specific:
-
-> "Remember that we're using the repository pattern for data access in this project."
-
-### Querying Memory Directly
-
-Ask the agent to show what it remembers:
-
-> "What do you remember about our testing strategy?"
-
-### Correcting Memories
-
-If a memory is wrong or outdated:
-
-> "That's no longer accurate. We switched from REST to GraphQL last month."
-
-The agent will update the knowledge graph.
-
-### Bulk Context Loading
-
-When starting a session, prime the agent:
-
-> "Retrieve any memories about the payment system, user authentication, and our API design patterns."
-
-This pre-loads relevant context for the session.
+**Returns**: Both narrative markdown and structured JSON for agent parsing.

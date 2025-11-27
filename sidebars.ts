@@ -6,6 +6,7 @@ const sidebars: SidebarsConfig = {
     'getting-started',
     'configuration',
     'workflows',
+    'agent-integration',
     'troubleshooting',
     'changelog',
   ],

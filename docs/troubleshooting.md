@@ -4,169 +4,147 @@ sidebar_position: 5
 
 # Troubleshooting
 
-Solutions to common issues with Flowbaby.
+Common issues and solutions for Flowbaby.
 
-## Installation Issues
+## Extension Not Activating
 
-### Extension Not Appearing
+### Check the Output Channel
 
-**Symptom**: Flowbaby doesn't show up in the extensions list after installation.
+1. Go to **View → Output**
+2. Select **"Flowbaby Memory"** from the dropdown
+3. Look for initialization errors
 
-**Solutions**:
+### Enable Debug Logging
 
-1. Reload VS Code (`Ctrl+Shift+P` → "Reload Window")
-2. Check that you're running VS Code 1.85.0 or later
-3. Try uninstalling and reinstalling the extension
+If you need more detailed information:
 
-### MCP Tools Not Available
+1. Enable `Flowbaby.debugLogging` in settings
+2. Use **"Flowbaby: Show Debug Logs"** command
 
-**Symptom**: AI agents don't seem to have access to Flowbaby's memory tools.
+## Common Issues
 
-**Solutions**:
+### "LLM_API_KEY not found"
 
-1. Ensure GitHub Copilot is in agent mode
-2. Restart VS Code after installing Flowbaby
-3. Check the Output panel (View → Output → Flowbaby) for errors
+**Solution**: Use the **"Flowbaby: Set API Key"** command (recommended), or create a `.env` file in your workspace root with:
 
-## Memory Issues
+```env
+LLM_API_KEY=sk-your-key-here
+```
 
-### Memories Not Being Stored
+Then reload VS Code: `Ctrl+Shift+P` → **"Reload Window"**
 
-**Symptom**: The agent completes work but doesn't store memories.
+:::note
+As of v0.2.1, `OPENAI_API_KEY` is no longer supported. Use `LLM_API_KEY` to align with Cognee 0.4.0.
+:::
 
-**Possible causes**:
+### "Python not found" or "cognee module not found"
 
-1. **Extension disabled**: Check `flowbaby.enabled` setting
-2. **Auto-store disabled**: Check `flowbaby.autoStore` setting
-3. **Workspace not open**: Flowbaby requires a workspace folder
+**Solution**: 
 
-**Solutions**:
+- Run **"Flowbaby: Initialize Workspace"** to set up the environment automatically
+- If using a custom Python environment, set `Flowbaby.pythonPath` to your Python path
 
-1. Verify settings in VS Code preferences
-2. Open a folder/workspace (not just a file)
-3. Check the Output panel for errors
+### "No workspace folder open"
 
-### Memories Not Being Retrieved
+**Solution**: The extension requires a workspace (not single-file mode). Open a folder:
 
-**Symptom**: The agent doesn't seem to recall past context.
+- **File → Open Folder**
+- Or use the command: `code /path/to/your/project`
 
-**Possible causes**:
-
-1. **No relevant memories**: The knowledge graph may be empty or not have matching content
-2. **Query too vague**: The retrieval query isn't finding matches
-3. **Database corrupted**: The knowledge graph file may be damaged
+### Slow Performance
 
 **Solutions**:
 
-1. Ask the agent directly: "What do you remember about [topic]?"
-2. Be more specific in your questions
-3. Check if `.flowbaby/knowledge-graph.db` exists and has content
-4. Try clearing and rebuilding the knowledge graph
+- Check that `Flowbaby.logLevel` is not set to `"debug"` (this slows down operations)
+- Reduce `maxContextResults` to 1-2 for faster retrieval
+- Reduce `maxContextTokens` to 1000 for lighter processing
 
-### Knowledge Graph Too Large
+### Python Jedi Language Server Conflict
 
-**Symptom**: VS Code becomes slow or memories are being dropped.
+**Symptom**: Flowbaby stops working after using Python IntelliSense; the `.venv` or Python environment gets overwritten with different packages.
 
-**Solutions**:
+**Cause**: The Python Jedi language server (Pylance) may modify or replace packages in the active virtual environment.
 
-1. Increase `flowbaby.maxMemories` if you have the resources
-2. Export old memories and clear the graph
-3. Consider using `Superseded` status for outdated memories
+**Solution**: Flowbaby now uses an isolated environment at `.flowbaby/venv` (instead of `.venv`) to prevent conflicts:
 
-## Performance Issues
+1. Run **"Flowbaby: Initialize Workspace"** to create the isolated environment
+2. If prompted about an existing `.venv`, choose "Use Flowbaby's .flowbaby/venv (Recommended)"
 
-### Slow Response Times
+### Capture or Retrieval Not Working
 
-**Symptom**: AI agents take longer to respond when Flowbaby is active.
+#### Capture Issues
 
-**Possible causes**:
+1. Verify keyboard shortcut (Ctrl+Alt+C / Cmd+Alt+C) is not conflicting with other extensions
+2. Check Command Palette for "Flowbaby: Capture to Memory" as alternative
+3. Ensure you see confirmation message after capture ("✅ Captured to memory")
+4. Check Output Channel logs for ingestion errors
 
-1. Large knowledge graph
-2. Many memories being retrieved
+#### Retrieval Issues
 
-**Solutions**:
+1. Verify `Flowbaby.enabled` is `true` in settings
+2. Type `@flowbaby-memory` in chat to invoke the participant explicitly
+3. Check Output Channel logs for retrieval attempts and timing
+4. Remember: The first conversation in a new workspace has no context (memory starts empty)
+5. Each workspace has separate memory—switching workspaces means different context
+6. If retrieval fails, you'll see "⚠️ Memory retrieval unavailable" but participant continues without context
 
-1. Reduce `maxResults` in retrieval queries
-2. Clean up old or irrelevant memories
-3. Check system resources
+## Common Error Patterns
 
-### High Memory Usage
+| Symptom | Likely Cause | Recommended Action |
+|---------|--------------|-------------------|
+| "Python script exited with code 1" (empty stderr) | Interpreter mismatch: `cognee` or `python-dotenv` not installed | Set `Flowbaby.pythonPath` to correct interpreter |
+| "No module named 'cognee'" | Missing `cognee` package | Install with: `pip install cognee==0.3.4` |
+| "LLM_API_KEY not found" | Missing API key in `.env` or environment | Create `.env` file with valid `LLM_API_KEY` |
+| Script timeout (retrieval: 15s, ingestion: 120s) | Network issues, slow LLM provider | Check Output Channel for timing metrics |
+| JSON parse error in logs | Script produced non-JSON output | Report as bug |
 
-**Symptom**: VS Code uses more memory with Flowbaby active.
+:::note
+Auto-detection works for standard `.venv` setups on Linux, macOS, and Windows. For remote contexts (Remote-SSH, WSL, Dev Containers), conda, or pyenv, use explicit `Flowbaby.pythonPath` configuration.
+:::
 
-**Solutions**:
+## Clearing Memory
 
-1. The knowledge graph is loaded into memory; this is expected
-2. Clear old memories if the graph is very large
-3. Restart VS Code periodically for long sessions
+To reset your workspace memory (e.g., to start fresh or clear sensitive data):
 
-## Data Issues
+```bash
+rm -rf .flowbaby/
+```
 
-### Corrupted Knowledge Graph
+The extension will reinitialize on next activation, creating a fresh knowledge graph.
 
-**Symptom**: Errors when reading or writing memories.
+## Known Limitations
 
-**Solutions**:
+- **Workspace Required** — Extension doesn't work in single-file mode
+- **Python Dependency** — Python and Cognee must be installed separately (not bundled)
+- **Manual Capture** — Keyboard shortcut requires copy-paste workflow; cannot extract message from chat UI directly (VS Code API limitation)
+- **Explicit Participant Invocation** — Must type `@flowbaby-memory` to trigger retrieval; cannot inject context into other participants
+- **First Conversation** — The first conversation in a new workspace has no context (memory starts empty)
+- **Step 6 Auto-Ingestion Disabled by Default** — Automatic capture of @flowbaby-memory conversations is experimental
+- **Platform Support** — Primarily tested on macOS and Linux; Windows support may require additional configuration
 
-1. Back up the current `.flowbaby/` folder
-2. Try the `Flowbaby: Clear All Memories` command
-3. If that fails, delete `.flowbaby/` and restart
+## Known Issues
 
-### Lost Memories
+### Cognee 0.4.0 File Hashing Bug (Auto-Ingestion)
 
-**Symptom**: Previously stored memories are gone.
+**Issue**: Cognee v0.4.0 has an intermittent file hashing bug that causes ingestion to fail unpredictably when the same conversation is ingested multiple times.
 
-**Possible causes**:
+**Symptoms**:
 
-1. Working in a different workspace
-2. Knowledge graph was cleared or deleted
-3. Git checkout changed the `.flowbaby/` folder
+- Conversations fail to ingest with hash mismatch errors
+- Intermittent failures (some ingests succeed, others fail for identical content)
+- Errors logged in Output Channel: "File not found" or hash-related issues
 
-**Solutions**:
+**Workaround**:
 
-1. Check you're in the correct workspace
-2. Check Git history for `.flowbaby/` changes
-3. Restore from backup if available
+- **Default**: `Flowbaby.autoIngestConversations` is set to `false` (auto-ingestion disabled)
+- **Manual Capture**: Use keyboard shortcut (Ctrl+Alt+C) to capture conversations manually—this does NOT trigger the bug
+- **Experimental Testing**: Set `Flowbaby.autoIngestConversations` to `true` to test feedback loop (may experience intermittent failures)
+- **Graceful Degradation**: Ingestion failures are logged but do NOT crash the extension
 
-## Agent Integration Issues
-
-### Agent Not Using Memory Tools
-
-**Symptom**: The AI agent doesn't call `flowbaby_storeMemory` or `flowbaby_retrieveMemory`.
-
-**Possible causes**:
-
-1. MCP tools not registered
-2. Agent mode not active
-3. Extension not initialized
-
-**Solutions**:
-
-1. Restart VS Code
-2. Ensure you're using GitHub Copilot in agent mode
-3. Check Output panel for Flowbaby initialization messages
-
-### Incorrect Memory Retrieval
-
-**Symptom**: The agent retrieves unrelated memories.
-
-**Solutions**:
-
-1. Be more specific in your questions
-2. The semantic search may match on tangential content
-3. Consider clearing outdated or low-quality memories
+**Status**: Monitoring Cognee updates for bug fix; will enable auto-ingestion by default when resolved.
 
 ## Getting Help
 
-If you're still having issues:
-
-1. **Check the logs**: View → Output → select "Flowbaby" from the dropdown
-2. **GitHub Issues**: Report bugs at [github.com/lsalsich/flowbaby/issues](https://github.com/lsalsich/flowbaby/issues)
-3. **GitHub Discussions**: Ask questions at [github.com/lsalsich/flowbaby/discussions](https://github.com/lsalsich/flowbaby/discussions)
-
-When reporting issues, please include:
-
-- VS Code version
-- Flowbaby version
-- Relevant logs from the Output panel
-- Steps to reproduce the issue
+- **Report Bugs**: [GitHub Issues](https://github.com/lsalsich/flowbaby/issues)
+- **Feature Requests**: [GitHub Discussions](https://github.com/lsalsich/flowbaby/discussions)
+- **Cognee Documentation**: [docs.cognee.ai](https://docs.cognee.ai)

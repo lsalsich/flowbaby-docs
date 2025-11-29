@@ -348,7 +348,7 @@ After modifying code:
 
 This extension is licensed under the PolyForm Strict License 1.0.0. See [LICENSE](https://github.com/lsalsich/flowbaby/blob/main/LICENSE) for details.
 
-This extension uses [Cognee](https://github.com/topoteretes/cognee) under the Apache 2.0 license. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for details.
+This extension uses [Cognee](https://github.com/topoteretes/cognee) under the Apache 2.0 license. See [THIRD_PARTY_NOTICES.md](./third-party-notices) for details.
 
 ## Support
 

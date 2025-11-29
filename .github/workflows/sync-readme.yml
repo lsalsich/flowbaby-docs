@@ -165,9 +165,9 @@ jobs:
             sed -i 's|\](SETUP\.md|\](https://github.com/lsalsich/flowbaby/blob/main/extension/SETUP.md|g' "$file"
             sed -i 's|\](LICENSE|\](https://github.com/lsalsich/flowbaby/blob/main/LICENSE|g' "$file"
             
-            # Fix image links to point to local static folder
+            # Fix image links to point to local static folder (handles both relative and absolute URLs)
             sed -i 's|\](media/|\](/img/flowbaby/|g' "$file"
-            sed -i 's|https://raw.githubusercontent.com/lsalsich/flowbaby/main/extension/media/|/img/flowbaby/|g' "$file"
+            sed -i 's|](https://raw.githubusercontent.com/lsalsich/flowbaby/main/extension/media/|](/img/flowbaby/|g' "$file"
             
             # Convert GitHub-style notes to Docusaurus admonitions
             sed -i 's/^> \*\*Note\*\*:/:::note/g' "$file"

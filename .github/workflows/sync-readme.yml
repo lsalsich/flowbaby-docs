@@ -26,11 +26,16 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
       
       - name: Fetch docs from flowbaby
+        env:
+          GH_TOKEN: ${{ secrets.FLOWBABY_PAT }}
         run: |
-          # Fetch README and AGENT_INTEGRATION from flowbaby repo
-          curl -s https://raw.githubusercontent.com/lsalsich/flowbaby/main/extension/README.md -o /tmp/README.md
-          curl -s https://raw.githubusercontent.com/lsalsich/flowbaby/main/extension/AGENT_INTEGRATION.md -o /tmp/AGENT_INTEGRATION.md
-          curl -s https://raw.githubusercontent.com/lsalsich/flowbaby/main/extension/CHANGELOG.md -o /tmp/CHANGELOG.md
+          # Fetch README and AGENT_INTEGRATION from private flowbaby repo
+          curl -s -H "Authorization: token $GH_TOKEN" \
+            https://raw.githubusercontent.com/lsalsich/flowbaby/main/extension/README.md -o /tmp/README.md
+          curl -s -H "Authorization: token $GH_TOKEN" \
+            https://raw.githubusercontent.com/lsalsich/flowbaby/main/extension/AGENT_INTEGRATION.md -o /tmp/AGENT_INTEGRATION.md
+          curl -s -H "Authorization: token $GH_TOKEN" \
+            https://raw.githubusercontent.com/lsalsich/flowbaby/main/extension/CHANGELOG.md -o /tmp/CHANGELOG.md
           
       - name: Create intro.md from README
         run: |

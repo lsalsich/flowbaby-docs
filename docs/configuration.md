@@ -82,8 +82,6 @@ Searches Flowbaby knowledge graph for relevant memories.
 
 **Returns**: Both narrative markdown and structured JSON for agent parsing.
 
-### Agent Integration Settings
-
 ### Transparency
 
 When agents use Flowbaby, you see:
@@ -150,7 +148,7 @@ Then reload VS Code: `Ctrl+Shift+P` → **"Reload Window"**
 2. Type `@flowbaby` in chat to invoke the participant explicitly
 3. Check Output Channel logs for retrieval attempts and timing
 4. Remember: The first conversation in a new workspace has no context (memory starts empty)
-5. Each workspace has separate memory—switching workspaces means different context
+5. Each workspace has separate memory-switching workspaces means different context
 6. If retrieval fails, you'll see "⚠️ Memory retrieval unavailable" but participant continues without context
 
 **Note**: Auto-detection works for standard `.venv` setups on Linux, macOS, and Windows. For remote contexts (Remote-SSH, WSL, Dev Containers), conda, or pyenv, use explicit `Flowbaby.pythonPath` configuration.
@@ -187,36 +185,31 @@ rm -rf .flowbaby/ .flowbaby/system/ .flowbaby/data/  # In workspace root
 
 ### Automatic Context Search
 
-![Automatic Search](/img/flowbaby/auto-search.png)
+![Automatic Search](https://raw.githubusercontent.com/lsalsich/flowbaby-issues/main/media/auto-search.png)
 
 *Flowbaby automatically searches memory based on chat context*
 
 ### Automatic Memory Storage
 
-![Automatic Store](/img/flowbaby/auto-store.png)
+![Automatic Store](https://raw.githubusercontent.com/lsalsich/flowbaby-issues/main/media/auto-store.png)
 
 *Flowbaby knows when to store memories based on conversation cues*
 
 ### Interactive Chat Participant
 
-![Interactive Chat](/img/flowbaby/interactive-chat-participant.png)
+![Interactive Chat](https://raw.githubusercontent.com/lsalsich/flowbaby-issues/main/media/interactive-chat-participant.png)
 
 *Use @flowbaby to query your workspace memory*
 
 ### Manual Memory Storage
 
-![Manual Store](/img/flowbaby/manual-store-summary.png)
+![Manual Store](https://raw.githubusercontent.com/lsalsich/flowbaby-issues/main/media/manual-store-summary.png)
 
 *Capture important context with keyboard shortcuts*
 
 ## Contributing
 
-We welcome contributions! See [CONTRIBUTING.md](https://github.com/lsalsich/flowbaby/blob/main/CONTRIBUTING.md) for:
-
-- Development setup instructions
-- How to run tests
-- Code style guidelines
-- Pull request process
+We welcome contributions! See [discussions](https://github.com/lsalsich/flowbaby-issues/discussions)
 
 ## License
 
@@ -231,6 +224,6 @@ This extension uses [Cognee](https://github.com/topoteretes/cognee) under the Ap
 
 ## Changelog
 
-See [CHANGELOG.md](./changelog) for version history and release notes.
+See [CHANGELOG.md](./changelog) for version history and release notes. 
 
 ---

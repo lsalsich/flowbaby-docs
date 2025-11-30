@@ -54,9 +54,9 @@ This stores the key securely and applies to all workspaces automatically.
 
 ## Memory-Aware Copilot Instructions (Strong Defaults)
 
-To get the full value from Flowbaby, you don’t have to start from scratch with custom prompting—Flowbaby already nudges GitHub Copilot to store and retrieve memory when it makes sense. However, strong Copilot instructions are still important if you want Copilot-initiated memory storage and retrieval to match your workflow (what to remember, what to ignore, how aggressive to be). The template below is a recommended starting point you can customize.
+To get the full value from Flowbaby, you don’t have to start from scratch with custom prompting-Flowbaby already nudges GitHub Copilot to store and retrieve memory when it makes sense. However, strong Copilot instructions are still important if you want Copilot-initiated memory storage and retrieval to match your workflow (what to remember, what to ignore, how aggressive to be). The template below is a recommended starting point you can customize.
 
-Create or modify an `.agent.md`, `.chatmode.md` or `.copilot-instructions.md` file in your workspace and add something like thexample below, or use it exactly as-is.
+Create or modify an `.agent.md`, `.chatmode.md` or `.copilot-instructions.md` file in your workspace and add something like the example below, or use it exactly as-is.
 
 **Example Copilot instructions:**
 
@@ -77,7 +77,7 @@ At the start of any turn where past work might matter (prior plans, decisions, c
 
 1. Call #flowbabyRetrieveMemory **before** deep planning or multi-step reasoning.
 2. Use a natural-language query that:
-   - Describes the current task,question, or challenge
+   - Describes the current task, question, or challenge
    - Mentions the area of the codebase or system involved
    - States what you are looking for (e.g., prior decisions, constraints, risks, patterns, open questions)
 3. Prefer a small set of high-value memories (default: 3) rather than many low-signal items.
@@ -85,7 +85,7 @@ At the start of any turn where past work might matter (prior plans, decisions, c
 You MAY make at most one follow-up retrieval in the same turn, but only if:
 
 - The first call returned nothing useful and a slightly more general query is warranted, or
-- You have a clear new question (e.g., “Have we already decided how to handle this exact edge case?”).
+- You have a clear new question (e.g., "Have we already decided how to handle this exact edge case?").
 
 Do NOT chain multiple retrievals just to explore history. If more context seems useful, summarize what you know, note uncertainties, and say what you would ask the user for.
 
@@ -133,7 +133,7 @@ After storing, explicitly tell the user that you saved progress to Flowbaby memo
 
 # 4. Behavioral Requirements
 
-- Begin each turn by asking: “Could prior work matter here?” If yes, retrieve.
+- Begin each turn by asking: "Could prior work matter here?" If yes, retrieve.
 - Never let memory silently override current specs, plans, or architecture.
 - Reference memory explicitly when it shapes your recommendations.
 - Avoid retrieval rabbit holes: at most one follow-up retrieval per turn.
@@ -178,9 +178,9 @@ This stores the key securely and applies to all workspaces automatically.
 
 ## Memory-Aware Copilot Instructions (Strong Defaults)
 
-To get the full value from Flowbaby, you don’t have to start from scratch with custom prompting—Flowbaby already nudges GitHub Copilot to store and retrieve memory when it makes sense. However, strong Copilot instructions are still important if you want Copilot-initiated memory storage and retrieval to match your workflow (what to remember, what to ignore, how aggressive to be). The template below is a recommended starting point you can customize.
+To get the full value from Flowbaby, you don’t have to start from scratch with custom prompting-Flowbaby already nudges GitHub Copilot to store and retrieve memory when it makes sense. However, strong Copilot instructions are still important if you want Copilot-initiated memory storage and retrieval to match your workflow (what to remember, what to ignore, how aggressive to be). The template below is a recommended starting point you can customize.
 
-Create or modify an `.agent.md`, `.chatmode.md` or `.copilot-instructions.md` file in your workspace and add something like thexample below, or use it exactly as-is.
+Create or modify an `.agent.md`, `.chatmode.md` or `.copilot-instructions.md` file in your workspace and add something like the example below, or use it exactly as-is.
 
 **Example Copilot instructions:**
 
@@ -201,7 +201,7 @@ At the start of any turn where past work might matter (prior plans, decisions, c
 
 1. Call #flowbabyRetrieveMemory **before** deep planning or multi-step reasoning.
 2. Use a natural-language query that:
-   - Describes the current task,question, or challenge
+   - Describes the current task, question, or challenge
    - Mentions the area of the codebase or system involved
    - States what you are looking for (e.g., prior decisions, constraints, risks, patterns, open questions)
 3. Prefer a small set of high-value memories (default: 3) rather than many low-signal items.
@@ -209,7 +209,7 @@ At the start of any turn where past work might matter (prior plans, decisions, c
 You MAY make at most one follow-up retrieval in the same turn, but only if:
 
 - The first call returned nothing useful and a slightly more general query is warranted, or
-- You have a clear new question (e.g., “Have we already decided how to handle this exact edge case?”).
+- You have a clear new question (e.g., "Have we already decided how to handle this exact edge case?").
 
 Do NOT chain multiple retrievals just to explore history. If more context seems useful, summarize what you know, note uncertainties, and say what you would ask the user for.
 
@@ -257,7 +257,7 @@ After storing, explicitly tell the user that you saved progress to Flowbaby memo
 
 # 4. Behavioral Requirements
 
-- Begin each turn by asking: “Could prior work matter here?” If yes, retrieve.
+- Begin each turn by asking: "Could prior work matter here?" If yes, retrieve.
 - Never let memory silently override current specs, plans, or architecture.
 - Reference memory explicitly when it shapes your recommendations.
 - Avoid retrieval rabbit holes: at most one follow-up retrieval per turn.

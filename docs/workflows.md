@@ -60,7 +60,7 @@ Use these flows when you want to explicitly capture important information.
 2. Press **Ctrl+Alt+F** (or **Cmd+Alt+F** on macOS).
 3. Paste or confirm the content in the capture input.
 4. Press Enter to capture.
-5. You'll see a staged message (e.g., "Memory staged – processing will finish in ~1–2 minutes").
+5. You'll see a staged message (e.g., "Memory staged - processing will finish in ~1–2 minutes").
 
 **Command Palette**:
 1. Open Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`).
@@ -97,12 +97,12 @@ In normal use, Flowbaby creates and maintains summaries for you automatically.
 **Manual and agent-driven summaries (optional)**:
 - You can still ask Flowbaby to create a summary explicitly if you want tighter control.
 - In Copilot Chat, you can say things like:
-   - `@flowbaby summarize this conversation`
-   - `@flowbaby remember this session`
-   - `@flowbaby create summary for this plan`
+  - `@flowbaby summarize this conversation`
+  - `@flowbaby remember this session`
+  - `@flowbaby create summary for this plan`
 - Custom agents can also store summaries directly using Flowbaby's tools and APIs (see the Flowbaby docs at [docs.flowbaby.ai](https://docs.flowbaby.ai)).
 
-The key idea: you don't need to manage summaries manually unless you want to – Flowbaby's automatic storage is usually enough.
+The key idea: you don't need to manage summaries manually unless you want to - Flowbaby's automatic storage is usually enough.
 
 ### 8. How Flowbaby Retrieves Summaries
 
@@ -122,7 +122,7 @@ Flowbaby uses summaries as a primary source of truth when answering questions ab
 - `@flowbaby What are the next steps for the authentication system?`
 - `@flowbaby Show me the rationale for using enriched text format`
 
-You don't need a separate "retrieve summary" command—just ask `@flowbaby` questions about previous sessions or decisions, and Flowbaby will use summaries automatically when available.
+You don't need a separate "retrieve summary" command-just ask `@flowbaby` questions about previous sessions or decisions, and Flowbaby will use summaries automatically when available.
 
 ### 9. Memory Management Commands
 
@@ -225,8 +225,6 @@ Searches Flowbaby knowledge graph for relevant memories.
 
 **Returns**: Both narrative markdown and structured JSON for agent parsing.
 
-### Agent Integration Settings
-
 ### Transparency
 
 When agents use Flowbaby, you see:
@@ -293,7 +291,7 @@ Then reload VS Code: `Ctrl+Shift+P` → **"Reload Window"**
 2. Type `@flowbaby` in chat to invoke the participant explicitly
 3. Check Output Channel logs for retrieval attempts and timing
 4. Remember: The first conversation in a new workspace has no context (memory starts empty)
-5. Each workspace has separate memory—switching workspaces means different context
+5. Each workspace has separate memory-switching workspaces means different context
 6. If retrieval fails, you'll see "⚠️ Memory retrieval unavailable" but participant continues without context
 
 **Note**: Auto-detection works for standard `.venv` setups on Linux, macOS, and Windows. For remote contexts (Remote-SSH, WSL, Dev Containers), conda, or pyenv, use explicit `Flowbaby.pythonPath` configuration.
@@ -330,36 +328,31 @@ rm -rf .flowbaby/ .flowbaby/system/ .flowbaby/data/  # In workspace root
 
 ### Automatic Context Search
 
-![Automatic Search](/img/flowbaby/auto-search.png)
+![Automatic Search](https://raw.githubusercontent.com/lsalsich/flowbaby-issues/main/media/auto-search.png)
 
 *Flowbaby automatically searches memory based on chat context*
 
 ### Automatic Memory Storage
 
-![Automatic Store](/img/flowbaby/auto-store.png)
+![Automatic Store](https://raw.githubusercontent.com/lsalsich/flowbaby-issues/main/media/auto-store.png)
 
 *Flowbaby knows when to store memories based on conversation cues*
 
 ### Interactive Chat Participant
 
-![Interactive Chat](/img/flowbaby/interactive-chat-participant.png)
+![Interactive Chat](https://raw.githubusercontent.com/lsalsich/flowbaby-issues/main/media/interactive-chat-participant.png)
 
 *Use @flowbaby to query your workspace memory*
 
 ### Manual Memory Storage
 
-![Manual Store](/img/flowbaby/manual-store-summary.png)
+![Manual Store](https://raw.githubusercontent.com/lsalsich/flowbaby-issues/main/media/manual-store-summary.png)
 
 *Capture important context with keyboard shortcuts*
 
 ## Contributing
 
-We welcome contributions! See [CONTRIBUTING.md](https://github.com/lsalsich/flowbaby/blob/main/CONTRIBUTING.md) for:
-
-- Development setup instructions
-- How to run tests
-- Code style guidelines
-- Pull request process
+We welcome contributions! See [discussions](https://github.com/lsalsich/flowbaby-issues/discussions)
 
 ## License
 
@@ -374,6 +367,6 @@ This extension uses [Cognee](https://github.com/topoteretes/cognee) under the Ap
 
 ## Changelog
 
-See [CHANGELOG.md](./changelog) for version history and release notes.
+See [CHANGELOG.md](./changelog) for version history and release notes. 
 
 ---

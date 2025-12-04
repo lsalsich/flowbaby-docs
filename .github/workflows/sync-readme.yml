@@ -31,24 +31,24 @@ jobs:
         run: |
           # Fetch README and AGENT_INTEGRATION from private flowbaby repo
           curl -s -H "Authorization: token $GH_TOKEN" \
-            https://raw.githubusercontent.com/lsalsich/flowbaby/main/extension/README.md -o /tmp/README.md
+            https://raw.githubusercontent.com/groupzer0/flowbaby/main/extension/README.md -o /tmp/README.md
           curl -s -H "Authorization: token $GH_TOKEN" \
-            https://raw.githubusercontent.com/lsalsich/flowbaby/main/extension/AGENT_INTEGRATION.md -o /tmp/AGENT_INTEGRATION.md
+            https://raw.githubusercontent.com/groupzer0/flowbaby/main/extension/AGENT_INTEGRATION.md -o /tmp/AGENT_INTEGRATION.md
           curl -s -H "Authorization: token $GH_TOKEN" \
-            https://raw.githubusercontent.com/lsalsich/flowbaby/main/extension/CHANGELOG.md -o /tmp/CHANGELOG.md
+            https://raw.githubusercontent.com/groupzer0/flowbaby/main/extension/CHANGELOG.md -o /tmp/CHANGELOG.md
           curl -s -H "Authorization: token $GH_TOKEN" \
-            https://raw.githubusercontent.com/lsalsich/flowbaby/main/THIRD_PARTY_NOTICES.md -o /tmp/THIRD_PARTY_NOTICES.md
+            https://raw.githubusercontent.com/groupzer0/flowbaby/main/THIRD_PARTY_NOTICES.md -o /tmp/THIRD_PARTY_NOTICES.md
           
           # Fetch all media/images from private repo using GitHub API
           mkdir -p static/img/flowbaby
           
           # Get list of files in media directory
           curl -s -H "Authorization: token $GH_TOKEN" \
-            "https://api.github.com/repos/lsalsich/flowbaby/contents/extension/media" | \
+            "https://api.github.com/repos/groupzer0/flowbaby/contents/extension/media" | \
             jq -r '.[] | select(.type == "file") | .name' | while read img; do
               echo "Fetching $img..."
               curl -s -H "Authorization: token $GH_TOKEN" \
-                "https://raw.githubusercontent.com/lsalsich/flowbaby/main/extension/media/$img" \
+                "https://raw.githubusercontent.com/groupzer0/flowbaby/main/extension/media/$img" \
                 -o "static/img/flowbaby/$img"
             done
           
@@ -175,18 +175,18 @@ jobs:
         run: |
           for file in docs/*.md; do
             # Fix relative links to point to GitHub
-            sed -i 's|\](\.\.\/|\](https://github.com/lsalsich/flowbaby/blob/main/|g' "$file"
+            sed -i 's|\](\.\./|\](https://github.com/groupzer0/flowbaby/blob/main/|g' "$file"
             sed -i 's|\](\.\/AGENT_INTEGRATION|\](./agent-integration|g' "$file"
-            sed -i 's|\](\.\/bridge/|\](https://github.com/lsalsich/flowbaby/blob/main/extension/bridge/|g' "$file"
+            sed -i 's|\](\.\/bridge/|\](https://github.com/groupzer0/flowbaby/blob/main/extension/bridge/|g' "$file"
             sed -i 's|\](CHANGELOG\.md|\](./changelog|g' "$file"
-            sed -i 's|\](SETUP\.md|\](https://github.com/lsalsich/flowbaby/blob/main/extension/SETUP.md|g' "$file"
-            sed -i 's|\](LICENSE|\](https://github.com/lsalsich/flowbaby/blob/main/LICENSE|g' "$file"
+            sed -i 's|\](SETUP\.md|\](https://github.com/groupzer0/flowbaby/blob/main/extension/SETUP.md|g' "$file"
+            sed -i 's|\](LICENSE|\](https://github.com/groupzer0/flowbaby/blob/main/LICENSE|g' "$file"
             # Point THIRD_PARTY_NOTICES.md links at the local third-party-notices doc
             sed -i 's|\](THIRD_PARTY_NOTICES\.md|\](./third-party-notices|g' "$file"
             
             # Fix image links to point to local static folder (handles both relative and absolute URLs)
             sed -i 's|\](media/|\](/img/flowbaby/|g' "$file"
-            sed -i 's|](https://raw.githubusercontent.com/lsalsich/flowbaby/main/extension/media/|](/img/flowbaby/|g' "$file"
+            sed -i 's|](https://raw.githubusercontent.com/groupzer0/flowbaby/main/extension/media/|](/img/flowbaby/|g' "$file"
             
             # Convert GitHub-style notes to Docusaurus admonitions
             sed -i 's/^> \*\*Note\*\*:/:::note/g' "$file"

@@ -16,6 +16,18 @@ This guide will help you install and configure Flowbaby for your VS Code workspa
 4. Click **Install**
 5. Reload VS Code when prompted
 
+<<<<<<< HEAD
+=======
+### Method 2: Install from VSIX
+
+1. Download the latest `.vsix` file from [GitHub Releases](https://github.com/groupzer0/flowbaby/releases)
+2. Open VS Code
+3. Press `Ctrl+Shift+P` (or `Cmd+Shift+P` on macOS)
+4. Type **"Install from VSIX"** and select the command
+5. Navigate to the downloaded `.vsix` file and select it
+6. Reload VS Code when prompted
+
+>>>>>>> 53db37b (Update GitHub owner references to groupzer0)
 ## Setup
 
 After installation, configure your workspace:

@@ -1,6 +1,6 @@
 # Flowbaby Documentation
 
-This is the documentation site for [Flowbaby](https://github.com/lsalsich/flowbaby), a VS Code extension that gives your AI coding agents long-term memory.
+This is the documentation site for [Flowbaby](https://github.com/groupzer0/flowbaby), a VS Code extension that gives your AI coding agents long-term memory.
 
 **Live site:** [https://docs.flowbaby.ai](https://docs.flowbaby.ai)
 

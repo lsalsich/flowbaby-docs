@@ -14,7 +14,7 @@ const config: Config = {
   url: 'https://docs.flowbaby.ai',
   baseUrl: '/',
 
-  organizationName: 'lsalsich',
+  organizationName: 'groupzer0',
   projectName: 'flowbaby',
 
   onBrokenLinks: 'throw',
@@ -31,7 +31,7 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
-          editUrl: 'https://github.com/lsalsich/flowbaby-docs/tree/main/',
+          editUrl: 'https://github.com/groupzer0/flowbaby-docs/tree/main/',
         },
         blog: {
           showReadingTime: true,
@@ -39,7 +39,7 @@ const config: Config = {
             type: ['rss', 'atom'],
             xslt: true,
           },
-          editUrl: 'https://github.com/lsalsich/flowbaby-docs/tree/main/',
+          editUrl: 'https://github.com/groupzer0/flowbaby-docs/tree/main/',
           onInlineTags: 'warn',
           onInlineAuthors: 'warn',
           onUntruncatedBlogPosts: 'warn',
@@ -71,7 +71,7 @@ const config: Config = {
         },
         {to: '/blog', label: 'Blog', position: 'left'},
         {
-          href: 'https://github.com/lsalsich/flowbaby',
+          href: 'https://github.com/groupzer0/flowbaby',
           label: 'GitHub',
           position: 'right',
         },
@@ -107,11 +107,11 @@ const config: Config = {
           items: [
             {
               label: 'GitHub Discussions',
-              href: 'https://github.com/lsalsich/flowbaby/discussions',
+              href: 'https://github.com/groupzer0/flowbaby/discussions',
             },
             {
               label: 'GitHub Issues',
-              href: 'https://github.com/lsalsich/flowbaby/issues',
+              href: 'https://github.com/groupzer0/flowbaby/issues',
             },
           ],
         },
@@ -124,7 +124,7 @@ const config: Config = {
             },
             {
               label: 'GitHub',
-              href: 'https://github.com/lsalsich/flowbaby',
+              href: 'https://github.com/groupzer0/flowbaby',
             },
             {
               label: 'VS Code Marketplace',

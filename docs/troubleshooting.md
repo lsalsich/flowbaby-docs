@@ -7,7 +7,7 @@ sidebar_position: 6
 Common issues and solutions for Flowbaby.
 
 
-### Extension Not Activating
+## Extension Not Activating
 
 **Check the Output Channel**:
 
@@ -67,7 +67,7 @@ Then reload VS Code: `Ctrl+Shift+P` → **"Reload Window"**
 
 **Note**: Auto-detection works for standard `.venv` setups on Linux, macOS, and Windows. For remote contexts (Remote-SSH, WSL, Dev Containers), conda, or pyenv, use explicit `Flowbaby.pythonPath` configuration.
 
-### Clearing Memory
+## Clearing Memory
 
 To reset your workspace memory (e.g., to start fresh or clear sensitive data):
 
